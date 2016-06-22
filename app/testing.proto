@@ -28,6 +28,17 @@ message Status {
   Some value = 1 [default = A];
 }
 
+message Info {
+  oneof content {
+    string text = 1;
+    Simple object = 2;
+  }
+}
+
+message SimpleMap {
+  map<string, Simple> items = 1;
+}
+
 service test {
   rpc emptyResponse(Empty) returns (Empty) {}
   rpc simpleResponse(Empty) returns (Simple) {}
@@ -45,4 +56,10 @@ service test {
 
   rpc anyRequest(Anything) returns (Simple) {}
   rpc anyResponse(Empty) returns (Any) {}
+
+  rpc oneOfRequest(Info) returns (Simple) {}
+  rpc oneOfResponse(Empty) returns (Info) {}
+
+  rpc mapRequest(SimpleMap) returns (Simple) {}
+  rpc mapResponse(Empty) returns (SimpleMap) {}
 }

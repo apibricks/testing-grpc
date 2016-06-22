@@ -72,6 +72,31 @@ function anyResponse(call, callback) {
   callback(null, possibleResponses[responseIndex]);
 }
 
+function oneOfRequest(call, callback) {
+  callback(null, { text: JSON.stringify(call.request) });
+}
+
+function oneOfResponse(call, callback) {
+  let possibleResponses = [
+    {text: "some info text"},
+    {object: {text: "some info text inside an object"}}
+  ];
+  let responseIndex = Math.floor(Math.random() * possibleResponses.length);
+  callback(null, possibleResponses[responseIndex]);
+}
+
+function mapRequest(call, callback) {
+  callback(null, { text: JSON.stringify(call.request) });
+}
+
+function mapResponse(call, callback) {
+  callback(null, {
+    first: {text: "item1"},
+    second: {text: "item2"},
+    third: {text: "item3"}
+  });
+}
+
 var server = new grpc.Server();
 server.addProtoService(testing_proto.testing.test.service, {
   emptyResponse: emptyResponse,
@@ -86,7 +111,11 @@ server.addProtoService(testing_proto.testing.test.service, {
   enumRequest: enumRequest,
   enumResponse: enumResponse,
   anyRequest: anyRequest,
-  anyResponse: anyResponse
+  anyResponse: anyResponse,
+  oneOfRequest: oneOfRequest,
+  oneOfResponse: oneOfResponse,
+  mapRequest: mapRequest,
+  mapResponse: mapResponse
 });
 
 server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure());
