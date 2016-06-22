@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package testing;
+
+message Empty {
+
+}
+
+message Simple {
+  string text = 1;
+}
+
+message Complex {
+  Simple first = 1;
+  Simple second = 2;
+}
+
+message Status {
+  enum Some {
+    A = 0;
+    B = 1;
+    C = 2;
+    D = 3;
+  }
+  Some value = 1 [default = A];
+}
+
+service test {
+  rpc emptyResponse(Empty) returns (Empty) {}
+  rpc simpleResponse(Empty) returns (Simple) {}
+  rpc complexResponse(Empty) returns (Complex) {}
+  rpc simpleRequest(Simple) returns (Empty) {}
+  rpc complexRequest(Complex) returns (Empty) {}
+  rpc simpleRequestComplexResponse(Simple) returns (Complex) {}
+
+  rpc streamingRequest(stream Simple) returns (Simple) {}
+//  rpc streamingResponse(Empty) returns (stream Simple) {}
+  rpc bidirectionalStreaming(stream Simple) returns (stream Simple) {}
+
+  rpc enumRequest(Status) returns (Simple) {}
+  rpc enumResponse(Empty) returns (Status) {}
+}

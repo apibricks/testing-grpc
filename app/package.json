@@ -1,0 +1,7 @@
+{
+  "name": "testingService",
+  "version": "0.1.0",
+  "dependencies": [
+    "grpc"
+  ]
+}
