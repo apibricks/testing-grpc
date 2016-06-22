@@ -35,6 +35,10 @@ message Info {
   }
 }
 
+message Array {
+  repeated string items = 1;
+}
+
 message SimpleMap {
   map<string, Simple> items = 1;
 }
@@ -59,6 +63,9 @@ service test {
 
   rpc oneOfRequest(Info) returns (Simple) {}
   rpc oneOfResponse(Empty) returns (Info) {}
+
+  rpc arrayRequest(Array) returns (Simple) {}
+  rpc arrayResponse(Empty) returns (Array) {}
 
   rpc mapRequest(SimpleMap) returns (Simple) {}
   rpc mapResponse(Empty) returns (SimpleMap) {}

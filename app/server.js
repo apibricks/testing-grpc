@@ -85,6 +85,14 @@ function oneOfResponse(call, callback) {
   callback(null, possibleResponses[responseIndex]);
 }
 
+function arrayRequest(call, callback) {
+  callback(null, { text: JSON.stringify(call.request) });
+}
+
+function arrayResponse(call, callback) {
+  callback(null, {items: ["item1", "item2", "item3"]});
+}
+
 function mapRequest(call, callback) {
   callback(null, { text: JSON.stringify(call.request) });
 }
@@ -114,6 +122,8 @@ server.addProtoService(testing_proto.testing.test.service, {
   anyResponse: anyResponse,
   oneOfRequest: oneOfRequest,
   oneOfResponse: oneOfResponse,
+  arrayRequest: arrayRequest,
+  arrayResponse: arrayResponse,
   mapRequest: mapRequest,
   mapResponse: mapResponse
 });
