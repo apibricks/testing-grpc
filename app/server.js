@@ -36,6 +36,12 @@ function streamingRequest(call, callback) {
   });
 }
 
+function streamingResponse(call) {
+  for (let i = 0; i < 50; i++) {
+    call.write({text: "test text " + i});
+  }
+}
+
 function bidirectionalStreaming(call) {
   call.on('data', data => {
     call.write(data);
@@ -47,6 +53,25 @@ function enumRequest(call, callback) {
   callback(null, { text: JSON.stringify(call.request) });
 }
 
+function enumResponse(call, callback) {
+  callback(null, {value: 2});
+}
+
+function anyRequest(call, callback) {
+  callback(null, { text: JSON.stringify(call.request) });
+}
+
+function anyResponse(call, callback) {
+  let possibleResponses = [
+    {someNumber: 42},
+    {someString: "some text"},
+    {someArray: ["some", "string", "values"]},
+    {someComplexObject: {someNumber: 42, someString: "some text"}}
+  ];
+  let responseIndex = Math.floor(Math.random() * possibleResponses.length);
+  callback(null, possibleResponses[responseIndex]);
+}
+
 var server = new grpc.Server();
 server.addProtoService(testing_proto.testing.test.service, {
   emptyResponse: emptyResponse,
@@ -56,8 +81,12 @@ server.addProtoService(testing_proto.testing.test.service, {
   complexRequest: complexRequest,
   simpleRequestComplexResponse: simpleRequestComplexResponse,
   streamingRequest: streamingRequest,
+  streamingResponse: streamingResponse,
   bidirectionalStreaming: bidirectionalStreaming,
-  enumRequest: enumRequest
+  enumRequest: enumRequest,
+  enumResponse: enumResponse,
+  anyRequest: anyRequest,
+  anyResponse: anyResponse
 });
 
 server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure());

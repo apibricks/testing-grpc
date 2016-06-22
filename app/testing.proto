@@ -3,7 +3,6 @@ syntax = "proto3";
 package testing;
 
 message Empty {
-
 }
 
 message Simple {
@@ -13,6 +12,10 @@ message Simple {
 message Complex {
   Simple first = 1;
   Simple second = 2;
+}
+
+message Anything {
+  Any thing = 1;
 }
 
 message Status {
@@ -34,9 +37,12 @@ service test {
   rpc simpleRequestComplexResponse(Simple) returns (Complex) {}
 
   rpc streamingRequest(stream Simple) returns (Simple) {}
-//  rpc streamingResponse(Empty) returns (stream Simple) {}
+  rpc streamingResponse(Empty) returns (stream Simple) {}
   rpc bidirectionalStreaming(stream Simple) returns (stream Simple) {}
 
   rpc enumRequest(Status) returns (Simple) {}
   rpc enumResponse(Empty) returns (Status) {}
+
+  rpc anyRequest(Anything) returns (Simple) {}
+  rpc anyResponse(Empty) returns (Any) {}
 }
