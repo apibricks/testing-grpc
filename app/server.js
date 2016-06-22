@@ -105,6 +105,30 @@ function mapResponse(call, callback) {
   });
 }
 
+function importedRequest(call, callback) {
+  callback(null, { text: JSON.stringify(call.request) });
+}
+
+function importedResponse(call, callback) {
+  callback(null, {foo: "bar"});
+}
+
+function absolutelyReferencedRequest(call, callback) {
+  callback(null, { text: JSON.stringify(call.request) });
+}
+
+function absolutelyReferencedResponse(call, callback) {
+  callback(null, {title: "foo", content: "bar"});
+}
+
+function requestReferencedFromRoot(call, callback) {
+  callback(null, { text: JSON.stringify(call.request) });
+}
+
+function responseReferencedFromRoot(call, callback) {
+  callback(null, {title: "foo", content: "bar"});
+}
+
 var server = new grpc.Server();
 server.addProtoService(testing_proto.testing.test.service, {
   emptyResponse: emptyResponse,
@@ -125,7 +149,13 @@ server.addProtoService(testing_proto.testing.test.service, {
   arrayRequest: arrayRequest,
   arrayResponse: arrayResponse,
   mapRequest: mapRequest,
-  mapResponse: mapResponse
+  mapResponse: mapResponse,
+  importedRequest: importedRequest,
+  importedResponse: importedResponse,
+  absolutelyReferencedRequest: absolutelyReferencedRequest,
+  absolutelyReferencedResponse: absolutelyReferencedResponse,
+  requestReferencedFromRoot: requestReferencedFromRoot,
+  responseReferencedFromRoot: responseReferencedFromRoot
 });
 
 server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure());

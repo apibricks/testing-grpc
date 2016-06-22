@@ -1,0 +1,10 @@
+package root;
+
+message External {
+    string foo = 1;
+}
+
+message Simple {
+    string title = 1;
+    string content = 2;
+}

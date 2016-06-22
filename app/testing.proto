@@ -1,6 +1,8 @@
 syntax = "proto3";
 
-package testing;
+package root.testing;
+
+import "external.proto";
 
 message Empty {
 }
@@ -69,4 +71,11 @@ service test {
 
   rpc mapRequest(SimpleMap) returns (Simple) {}
   rpc mapResponse(Empty) returns (SimpleMap) {}
+
+  rpc importedRequest(External) returns (Simple) {}
+  rpc importedResponse(Empty) returns (External) {}
+  rpc absolutelyReferencedRequest(root.Simple) returns (Simple) {}
+  rpc absolutelyReferencedResponse(Empty) returns (root.Simple) {}
+  rpc requestReferencedFromRoot(.Simple) returns (Simple) {}
+  rpc responseReferencedFromRoot(Empty) returns (.Simple) {}
 }
