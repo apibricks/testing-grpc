@@ -63,10 +63,10 @@ function anyRequest(call, callback) {
 
 function anyResponse(call, callback) {
   let possibleResponses = [
-    {someNumber: 42},
-    {someString: "some text"},
-    {someArray: ["some", "string", "values"]},
-    {someComplexObject: {someNumber: 42, someString: "some text"}}
+    {thing: 42},
+    {thing: "some text"},
+    {thing: ["some", "string", "values"]},
+    {thing: {someNumber: 42, someString: "some text"}}
   ];
   let responseIndex = Math.floor(Math.random() * possibleResponses.length);
   callback(null, possibleResponses[responseIndex]);
