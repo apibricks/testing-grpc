@@ -1,7 +1,8 @@
 var grpc = require('grpc');
 var Long = require("long");
 
-var testing_proto = grpc.load('/api/main.proto');
+// var testing_proto = grpc.load('/api/main.proto');
+var testing_proto = grpc.load('testing.proto');
 
 function emptyResponse(call, callback) {
   callback(null, {});
@@ -146,16 +147,16 @@ function absolutelyReferencedResponse(call, callback) {
   callback(null, {title: "foo", content: "bar"});
 }
 
-function requestReferencedFromRoot(call, callback) {
+function dotPrefixedReferencedRequest(call, callback) {
   callback(null, { text: JSON.stringify(call.request) });
 }
 
-function responseReferencedFromRoot(call, callback) {
+function dotPrefixedReferencedResponse(call, callback) {
   callback(null, {title: "foo", content: "bar"});
 }
 
 var server = new grpc.Server();
-server.addProtoService(testing_proto.testing.test.service, {
+server.addProtoService(testing_proto.iaas.fapra.testing.test.service, {
   emptyResponse: emptyResponse,
   simpleResponse: simpleResponse,
   complexResponse: complexResponse,
@@ -189,8 +190,8 @@ server.addProtoService(testing_proto.testing.test.service, {
   importedResponse: importedResponse,
   absolutelyReferencedRequest: absolutelyReferencedRequest,
   absolutelyReferencedResponse: absolutelyReferencedResponse,
-  requestReferencedFromRoot: requestReferencedFromRoot,
-  responseReferencedFromRoot: responseReferencedFromRoot
+  dotPrefixedReferencedRequest: dotPrefixedReferencedRequest,
+  dotPrefixedReferencedResponse: dotPrefixedReferencedResponse
 });
 
 server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure());

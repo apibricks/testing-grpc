@@ -1,4 +1,6 @@
-package root;
+syntax = "proto3";
+
+package iaas.fapra;
 
 message External {
     string foo = 1;

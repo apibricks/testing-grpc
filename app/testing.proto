@@ -1,7 +1,8 @@
 syntax = "proto3";
 
-package root.testing;
+package iaas.fapra.testing;
 
+import "google/protobuf/any.proto";
 import "external.proto";
 
 message Empty {
@@ -17,7 +18,7 @@ message Complex {
 }
 
 message Anything {
-  Any thing = 1;
+  google.protobuf.Any thing = 1;
 }
 
 message Status {
@@ -79,7 +80,7 @@ service test {
   rpc enumResponse(Empty) returns (Status) {}
 
   rpc anyRequest(Anything) returns (Simple) {}
-  rpc anyResponse(Empty) returns (Any) {}
+  rpc anyResponse(Empty) returns (Anything) {}
 
   rpc oneOfRequest(Info) returns (Simple) {}
   rpc oneOfResponse(Empty) returns (Info) {}
@@ -95,8 +96,8 @@ service test {
 
   rpc importedRequest(External) returns (Simple) {}
   rpc importedResponse(Empty) returns (External) {}
-  rpc absolutelyReferencedRequest(root.Simple) returns (Simple) {}
-  rpc absolutelyReferencedResponse(Empty) returns (root.Simple) {}
-  rpc requestReferencedFromRoot(.Simple) returns (Simple) {}
-  rpc responseReferencedFromRoot(Empty) returns (.Simple) {}
+  rpc absolutelyReferencedRequest(iaas.fapra.Simple) returns (Simple) {}
+  rpc absolutelyReferencedResponse(Empty) returns (iaas.fapra.Simple) {}
+  rpc dotPrefixedReferencedRequest(.iaas.fapra.Simple) returns (Simple) {}
+  rpc dotPrefixedReferencedResponse(Empty) returns (.iaas.fapra.Simple) {}
 }
