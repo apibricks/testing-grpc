@@ -57,7 +57,6 @@ function bidirectionalStreaming(call) {
 }
 
 function enumRequest(call, callback) {
-  console.log(call.request);
   callback(null, { text: JSON.stringify(call.request) });
 }
 
