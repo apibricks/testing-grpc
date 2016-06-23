@@ -17,9 +17,9 @@ message Complex {
   Simple second = 2;
 }
 
-message Anything {
-  google.protobuf.Any thing = 1;
-}
+// message Anything {
+//  google.protobuf.Any thing = 1;
+// }
 
 message Status {
   enum Some {
@@ -79,8 +79,9 @@ service test {
   rpc enumRequest(Status) returns (Simple) {}
   rpc enumResponse(Empty) returns (Status) {}
 
-  rpc anyRequest(Anything) returns (Simple) {}
-  rpc anyResponse(Empty) returns (Anything) {}
+  // commenting out because node doesn't seem to understand these messages
+  // rpc anyRequest(Anything) returns (Simple) {}
+  // rpc anyResponse(Empty) returns (Anything) {}
 
   rpc oneOfRequest(Info) returns (Simple) {}
   rpc oneOfResponse(Empty) returns (Info) {}

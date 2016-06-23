@@ -65,6 +65,7 @@ function enumResponse(call, callback) {
   callback(null, {value: 2});
 }
 
+/*
 function anyRequest(call, callback) {
   callback(null, { text: JSON.stringify(call.request) });
 }
@@ -79,6 +80,7 @@ function anyResponse(call, callback) {
   let responseIndex = Math.floor(Math.random() * possibleResponses.length);
   callback(null, possibleResponses[responseIndex]);
 }
+*/
 
 function oneOfRequest(call, callback) {
   callback(null, { text: JSON.stringify(call.request) });
@@ -179,8 +181,8 @@ server.addProtoService(testing_proto.iaas.fapra.testing.test.service, {
   enumRequest: enumRequest,
   enumResponse: enumResponse,
 
-  anyRequest: anyRequest,
-  anyResponse: anyResponse,
+  //anyRequest: anyRequest,
+  //anyResponse: anyResponse,
 
   oneOfRequest: oneOfRequest,
   oneOfResponse: oneOfResponse,
