@@ -7,6 +7,8 @@ RUN adduser -D runner
 COPY app/server.js app/package.json /home/runner/app/
 # copy the protofile to the apibricks location /api/main.proto
 COPY app/testing.proto /api/main.proto
+COPY app/external.proto /api/external.proto
+COPY app/google/protobuf/any.proto /api/google/protobuf/any.proto
 
 RUN chown -R runner /home/runner/app
 
