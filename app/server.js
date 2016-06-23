@@ -38,8 +38,8 @@ function streamingRequest(call, callback) {
 }
 
 function streamingResponse(call) {
-  let messages = 50;
-  let maxTimeout = 500;
+  let messages = 10;
+  let maxTimeout = 1000;
   for (let i = 0; i < messages; i++) {
     // send each message after a random timeout
     setTimeout(() => {
@@ -71,10 +71,10 @@ function anyRequest(call, callback) {
 
 function anyResponse(call, callback) {
   let possibleResponses = [
-    {thing: 42},
-    {thing: "some text"},
-    {thing: ["some", "string", "values"]},
-    {thing: {someNumber: 42, someString: "some text"}}
+    {thing: {value: 42}},
+    {thing: {value: "some text"}},
+    {thing: {value: ["some", "string", "values"]}},
+    {thing: {value: {someNumber: 42, someString: "some text"}}}
   ];
   let responseIndex = Math.floor(Math.random() * possibleResponses.length);
   callback(null, possibleResponses[responseIndex]);
@@ -107,9 +107,11 @@ function mapRequest(call, callback) {
 
 function mapResponse(call, callback) {
   callback(null, {
-    first: {text: "item1"},
-    second: {text: "item2"},
-    third: {text: "item3"}
+    items: {
+      first: {text: "item1"},
+      second: {text: "item2"},
+      third: {text: "item3"}
+    }
   });
 }
 
@@ -133,7 +135,7 @@ function scalarValuesResponse(call, callback) {
     sfixed64Value: new Long(0xFFFFFFFF, 0x7FFFFFFF),
     boolValue: true,
     stringValue: "some text",
-    bytesValue: [42, 0, 255]
+    bytesValue: "thesearebytes"
   });
 }
 
