@@ -1,4 +1,5 @@
 var grpc = require('grpc');
+var Long = require("long");
 
 var testing_proto = grpc.load('/api/main.proto');
 
@@ -105,6 +106,30 @@ function mapResponse(call, callback) {
   });
 }
 
+function scalarValuesRequest(call, callback) {
+  callback(null, { text: JSON.stringify(call.request) });
+}
+
+function scalarValuesResponse(call, callback) {
+  callback(null, {
+    doubleValue: 2147483648.5,
+    floatValue: 123.456,
+    int32Value: 123,
+    int64Value: new Long(0xFFFFFFFF, 0x7FFFFFFF),
+    uint32Value: 123,
+    uint64Value: new Long(0xFFFFFFFF, 0x7FFFFFFF),
+    sint32Value: 123,
+    sint64Value: new Long(0xFFFFFFFF, 0x7FFFFFFF),
+    fixed32Value: 123,
+    fixed64Value: new Long(0xFFFFFFFF, 0x7FFFFFFF),
+    sfixed32Value: 123,
+    sfixed64Value: new Long(0xFFFFFFFF, 0x7FFFFFFF),
+    boolValue: true,
+    stringValue: "some text",
+    bytesValue: [42, 0, 255]
+  });
+}
+
 function importedRequest(call, callback) {
   callback(null, { text: JSON.stringify(call.request) });
 }
@@ -137,19 +162,29 @@ server.addProtoService(testing_proto.testing.test.service, {
   simpleRequest: simpleRequest,
   complexRequest: complexRequest,
   simpleRequestComplexResponse: simpleRequestComplexResponse,
+
   streamingRequest: streamingRequest,
   streamingResponse: streamingResponse,
   bidirectionalStreaming: bidirectionalStreaming,
+
   enumRequest: enumRequest,
   enumResponse: enumResponse,
+
   anyRequest: anyRequest,
   anyResponse: anyResponse,
+
   oneOfRequest: oneOfRequest,
   oneOfResponse: oneOfResponse,
+
   arrayRequest: arrayRequest,
   arrayResponse: arrayResponse,
+
   mapRequest: mapRequest,
   mapResponse: mapResponse,
+
+  scalarValuesRequest: scalarValuesRequest,
+  scalarValuesResponse: scalarValuesResponse,
+
   importedRequest: importedRequest,
   importedResponse: importedResponse,
   absolutelyReferencedRequest: absolutelyReferencedRequest,
