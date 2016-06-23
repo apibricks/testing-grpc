@@ -17,4 +17,6 @@ RUN chown -R runner /home/runner/app
 
 USER runner
 
+VOLUME /api
+
 CMD ["node", "server.js"]
