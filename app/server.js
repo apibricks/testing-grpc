@@ -1,8 +1,7 @@
 var grpc = require('grpc');
 var Long = require("long");
 
-// var testing_proto = grpc.load('/api/main.proto');
-var testing_proto = grpc.load('testing.proto');
+var testing_proto = grpc.load('/api/main.proto');
 
 function emptyResponse(call, callback) {
   callback(null, {});
@@ -39,8 +38,15 @@ function streamingRequest(call, callback) {
 }
 
 function streamingResponse(call) {
-  for (let i = 0; i < 50; i++) {
-    call.write({text: "test text " + i});
+  let messages = 50;
+  let maxTimeout = 500;
+  for (let i = 0; i < messages; i++) {
+    // send each message after a random timeout
+    setTimeout(() => {
+      call.write({text: "test text " + i});
+    },
+      Math.floor(Math.random() * maxTimeout)
+    );
   }
 }
 
