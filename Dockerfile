@@ -19,4 +19,6 @@ USER runner
 
 VOLUME /api
 
+EXPOSE 50051
+
 CMD ["node", "server.js"]
