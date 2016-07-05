@@ -48,12 +48,20 @@ function streamingResponse(call) {
       Math.floor(Math.random() * maxTimeout)
     );
   }
+
+  setTimeout(() => {
+    call.end()
+  }, maxTimeout + 10)
 }
 
 function bidirectionalStreaming(call) {
   call.on('data', data => {
     call.write(data);
   });
+
+  call.on('end', () => {
+    call.end();
+  })
 }
 
 function enumRequest(call, callback) {
