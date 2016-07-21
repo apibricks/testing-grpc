@@ -1,5 +1,9 @@
 FROM mhart/alpine-node:6.2
 
+VOLUME /api
+
+EXPOSE 50051
+
 RUN apk add --update libc6-compat && \
     rm -rf /var/cache/apk/* /root/.cache
 
@@ -16,9 +20,5 @@ COPY app/server.js /home/runner/app/
 RUN chown -R runner /home/runner/app
 
 USER runner
-
-VOLUME /api
-
-EXPOSE 50051
 
 CMD ["node", "server.js"]
